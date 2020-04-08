@@ -51,15 +51,14 @@ def get_model():
 
 def train_model(model):
     """
-    Training data will consist 85%  of total data.
-     The last 15% will be used for validation
-    :param model: kenas cnn model
-    :return:
+    Training data set : 85%
+    Testing data set : 15%
     """
 
     X = ?
     Y = ?
-
+    
+    # test_size 0.15 : training data set 85%
     X_train, X_valid, Y_train, Y_valid = train_test_split(X, Y, test_size=0.15, random_state=1)
 
     model = get_model()
