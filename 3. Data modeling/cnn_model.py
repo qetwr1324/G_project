@@ -5,12 +5,9 @@ import keras
 from keras.callbacks import ModelCheckpoint
 from sklearn.model_selection import train_test_split
 import os
-
 import constants
-import data_manager
 
 print(keras.__version__)
-
 
 # paper link for the convolutional model  - https://arxiv.org/pdf/1604.07316.pdf
 
@@ -44,7 +41,7 @@ def _create_model():
 
 
 def get_model():
-    if os.path.isfile(constants.FINAL_MODEL_FILEPATH):
+    if os.path.isfile('./my_model.h5'):
         model = keras.models.load_model('my_model.h5')
     else:
         model = _create_model()
@@ -60,7 +57,8 @@ def train_model(model):
     :return:
     """
 
-    X, Y = data_manager.read_data_from_file(split=True)
+    X = ?
+    Y = ?
 
     X_train, X_valid, Y_train, Y_valid = train_test_split(X, Y, test_size=0.15, random_state=1)
 
@@ -72,6 +70,6 @@ def train_model(model):
               validation_data=(X_valid, Y_valid), callbacks=[checkpoint])
 
     # save the model after training
-    model.save(constants.FINAL_MODEL_FILEPATH)
+    model.save('./my_model.h5')
 
 # model.summary()
