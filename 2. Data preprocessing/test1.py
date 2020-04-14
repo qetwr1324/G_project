@@ -6,17 +6,20 @@ import matplotlib.image as mpimg
 import cv2
 import MNIST_data
 import glob
+
+
 def region_of_interest(img, vertices):
-    mask= np.zeros_like(img)
-    if len(img.shape) >2:
+    mask = np.zeros_like(img)
+    if len(img.shape) > 2:
         channel_count = img.shape[2]
         ignore_mask_color = (255,) * channel_count
     else:
         ignore_mask_color = 255
 
-    cv2.fillPoly(mask,vertices, ignore_mask_color)
+    cv2.fillPoly(mask, vertices, ignore_mask_color)
     masked_image = cv2.bitwise_and(img, mask)
     return masked_image
+
 
 def draw_lines(img, lines, color=[255, 0, 0], thickness=5):
     for line in lines:
@@ -32,85 +35,93 @@ def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
     draw_lines(line_img, lines)
     return line_img
 
+
 kernel_size = 5  # 가우시안
-k=0
-imges= [cv2.imread(pro) for pro in glob.glob("D:\pro\*.jpg")]
+k = 0
+rho = 5
+theta = np.pi / 180
+threshold = 200
+min_line_len = 120
+max_line_gap = 150
 
-for i in range(0,len(imges)) :
+imges = [cv2.imread(pro) for pro in glob.glob("D:\pro1\*.jpg")]
 
-   img = imges[i]
-   cv2.imshow("",img)
-   gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)  # gray
+for i in range(0, len(imges)):
 
-   blur_gray = cv2.GaussianBlur(gray, (kernel_size, kernel_size), 0)
+    img = imges[i]
 
-   low_threshold = 50
-   high_threshold = 200
-   edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)  # gray
 
-   if len(img.shape) > 2:
-       channel_count = img.shape[2]
-       ignore_mask_color = (255,)
-   else:
-       ignore_mask_color = 255
+    blur_gray = cv2.GaussianBlur(gray, (kernel_size, kernel_size), 0)
+    for y in range(0,1):
+        blur_gray = cv2.GaussianBlur(blur_gray , (kernel_size, kernel_size), 0)
 
-   imshape = img.shape
+    low_threshold = 20
+    high_threshold = 50
+    edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
 
-   vertices = np.array([[(100, 100),
-                         (100, 101),
-                         (100, 101),
-                         (100, 100)]], dtype=np.int32)
-   vertices1 = np.array([[(255, 1080),
-                          (255, 800),
-                          (600, 800),
-                          (600, 1080)]], dtype=np.int32)
+    if len(img.shape) > 2:
+        channel_count = img.shape[2]
+        ignore_mask_color = (255,)
+    else:
+        ignore_mask_color = 255
 
-   vertices2 = np.array([[(1550, 1080),
-                          (1450, 800),
-                          (1750, 800),
-                          (1850, 1080)]], dtype=np.int32)
-   vertices3 = np.array([[(85, 1080),
-                          (420, 780),
-                          (680, 700),
-                          (250, 1080)]], dtype=np.int32)
-
-   mask = region_of_interest(edges, vertices)
-   mask1 = region_of_interest(edges, vertices1)
-   mask2 = region_of_interest(edges, vertices2)
-   mask3 = region_of_interest(edges, vertices3)
-
-   if (mask2.any()!=None):
-       rho = 2
-       theta = np.pi / 180
-       threshold = 150
-       min_line_len = 120
-       max_line_gap = 150
-       try:
-           lines = hough_lines(mask2, rho, theta, threshold, min_line_len, max_line_gap)
-       except:
-           continue
-   if (mask1.any()!=None):
-       try:
-           lines1 = hough_lines(mask1, rho, theta, threshold, min_line_len, max_line_gap)
-       except:
-           continue
-   if((lines.any()!=None)&(lines1.any()!=None)):
-       k+=1
-       if(k>3):
-           cv2.imwrite('D:\sample1\y' + str(i) + '.jpg', img)
-   else:
-        k=0
+    vertices1 = np.array([[(500, 1000),
+                          (730, 750),
+                          (840, 750),
+                          (725, 1000)]], dtype=np.int32)
+    vertices2 = np.array([[(725, 1000),
+                          (840, 750),
+                          (950, 750),
+                          (950, 1000)]], dtype=np.int32)
+    vertices3 = np.array([[(950, 1000),
+                          (950, 750),
+                          (1060, 750),
+                          (1175, 1000)]], dtype=np.int32)
+    vertices4 = np.array([[(1175, 1000),
+                          (1060, 750),
+                          (1180, 750),
+                          (1400, 1000)]], dtype=np.int32)
 
 
+    mask1 = region_of_interest(edges, vertices1)
+    mask2 = region_of_interest(edges, vertices2)
+    mask3 = region_of_interest(edges, vertices3)
+    mask4 = region_of_interest(edges, vertices4)
 
+    try:
+        lines1 = hough_lines(mask1, rho, theta, threshold, min_line_len, max_line_gap)
+        li1 = True
+    except:
 
-   if cv2.waitKey(33)>0:
-     break
+        li1 = False
+    try:
+        lines2 = hough_lines(mask2, rho, theta, threshold, min_line_len, max_line_gap)
+        li2 = True
+    except:
+
+        li2 = False
+    try:
+        lines3 = hough_lines(mask3, rho, theta, threshold, min_line_len, max_line_gap)
+        li3 = True
+    except:
+
+        li3 = False
+    try:
+        lines4 = hough_lines(mask4, rho, theta, threshold, min_line_len, max_line_gap)
+        li4 = True
+    except:
+
+        li4 = False
+
+    if ((li1==True)|(li1==True)|(li1==True)|(li1==True)):
+        if ((i - k) > 3):
+            for t in range(k, (i - 3)):
+                cv2.imshow("", imges[t])
+                cv2.imwrite('D:\sample4\y' + str(t) + '.jpg', imges[t])
+            k = i
+        else:
+            k = i
 
 cv2.waitKey(0)
 cv2.destroyWindow()
-
-
-
-
-
