@@ -44,7 +44,7 @@ threshold = 220
 min_line_len = 150
 max_line_gap = 150
 
-imges = [cv2.imread(pro) for pro in glob.glob("D:\pro2\*.jpg")]
+imges = [cv2.imread(pro) for pro in glob.glob("D:\pro1\*.jpg")]
 
 for i in range(0, len(imges)):
 
@@ -122,10 +122,12 @@ for i in range(0, len(imges)):
         if ((i - k) > 3):
             for t in range(k, (i - 3)):
                 cv2.imshow("", imges[t])
-                cv2.imwrite('D:\sample3\y' + str(t) + '.jpg', imges[t])
+                cv2.imwrite('D:\sample2\y' + str(t) + '.jpg', imges[t])
             k = i
         else:
             k = i
-
+    if(i==(len(imges)-1)):
+        for t in range(k,i):
+            cv2.imwrite('D:\sample2\y' + str(t) + '.jpg', imges[t])
 cv2.waitKey(0)
 cv2.destroyWindow()
