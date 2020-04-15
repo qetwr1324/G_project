@@ -40,11 +40,11 @@ kernel_size = 5  # 가우시안
 k = 0
 rho = 5
 theta = np.pi / 180
-threshold = 200
-min_line_len = 120
+threshold = 220
+min_line_len = 150
 max_line_gap = 150
 
-imges = [cv2.imread(pro) for pro in glob.glob("D:\pro1\*.jpg")]
+imges = [cv2.imread(pro) for pro in glob.glob("D:\pro2\*.jpg")]
 
 for i in range(0, len(imges)):
 
@@ -53,11 +53,11 @@ for i in range(0, len(imges)):
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)  # gray
 
     blur_gray = cv2.GaussianBlur(gray, (kernel_size, kernel_size), 0)
-    for y in range(0,1):
-        blur_gray = cv2.GaussianBlur(blur_gray , (kernel_size, kernel_size), 0)
+    for y in range(0,10):
+        blur_gray = cv2.GaussianBlur(blur_gray , (kernel_size, kernel_size), 10)
 
-    low_threshold = 20
-    high_threshold = 50
+    low_threshold = 10
+    high_threshold = 20
     edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
 
     if len(img.shape) > 2:
@@ -71,16 +71,16 @@ for i in range(0, len(imges)):
                           (840, 750),
                           (725, 1000)]], dtype=np.int32)
     vertices2 = np.array([[(725, 1000),
-                          (840, 750),
-                          (950, 750),
+                          (840, 700),
+                          (950, 700),
                           (950, 1000)]], dtype=np.int32)
     vertices3 = np.array([[(950, 1000),
-                          (950, 750),
-                          (1060, 750),
+                          (950, 700),
+                          (1060, 700),
                           (1175, 1000)]], dtype=np.int32)
     vertices4 = np.array([[(1175, 1000),
-                          (1060, 750),
-                          (1180, 750),
+                          (1060, 700),
+                          (1180, 700),
                           (1400, 1000)]], dtype=np.int32)
 
 
@@ -114,11 +114,15 @@ for i in range(0, len(imges)):
 
         li4 = False
 
-    if ((li1==True)|(li1==True)|(li1==True)|(li1==True)):
+
+
+
+
+    if ((li1==True)|(li2==True)|(li3==True)|(li4==True)):
         if ((i - k) > 3):
             for t in range(k, (i - 3)):
                 cv2.imshow("", imges[t])
-                cv2.imwrite('D:\sample4\y' + str(t) + '.jpg', imges[t])
+                cv2.imwrite('D:\sample3\y' + str(t) + '.jpg', imges[t])
             k = i
         else:
             k = i
