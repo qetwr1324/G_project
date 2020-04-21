@@ -109,7 +109,7 @@ def get_model():
     return model
 
 
-def train_model(model):
+def train_model():
     x, y = read_data(True)
 
     # test data set 0.15 : training data set 85%
