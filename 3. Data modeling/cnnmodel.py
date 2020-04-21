@@ -33,11 +33,9 @@ def collect_data(dirname, csvname):
             screenshot = cv2.imread(img)
 
             if count < len(joy_values):
-                joystick_values = joy_values[count]
+                screenshot = transform_image(np.array(screenshot))
 
-            screenshot = transform_image(np.array(screenshot))
-
-            data.append([screenshot, joystick_values])
+                data.append([screenshot, joy_values[count]])
 
             if count == len(images) - 1:
                 print('Collected data count - {0}.'.format(count))
@@ -69,13 +67,15 @@ def read_data(split=False):
                 y_train.append(data[i][1])
 
             return np.array(x_train), np.array(y_train)
+        else:
+            return np.array(data)
 
 
 def create_model():
     nrows = 66
     ncols = 200
     img_channels = 3  # color channels
-    output_size = 2
+    output_size = 1
 
     model = Sequential()
     model.add(Dropout(0.35, input_shape=(nrows, ncols, img_channels)))
