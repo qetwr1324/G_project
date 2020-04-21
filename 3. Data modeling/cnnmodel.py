@@ -40,7 +40,7 @@ def collect_data(dirname, csvname):
             if count == len(images) - 1:
                 print('Collected data count - {0}.'.format(count))
                 pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
-                data = []  # clear the data from memory
+                data = [] 
 
             count += 1
 
@@ -74,7 +74,7 @@ def read_data(split=False):
 def create_model():
     nrows = 66
     ncols = 200
-    img_channels = 3  # color channels
+    img_channels = 3
     output_size = 1
 
     model = Sequential()
@@ -112,7 +112,7 @@ def get_model():
 def train_model(model):
     x, y = read_data(True)
 
-    # test_size 0.15 : training data set 85%
+    # test data set 0.15 : training data set 85%
     x_train, x_valid, y_train, y_valid = train_test_split(x, y, test_size=0.15, random_state=1)
 
     model = get_model()
@@ -122,7 +122,6 @@ def train_model(model):
     model.fit(x_train, y_train, epochs=8, batch_size=64, verbose=1,
               validation_data=(x_valid, y_valid), callbacks=[checkpoint])
 
-    # save the model after training
     model.save('./my_model.h5')
 
 
