@@ -149,7 +149,7 @@ for i in range(0,len(dir_dir)):
         df_train = pd.concat([df_train,df1],ignore_index = True)
         
         if j == len_train[i]-1:            
-            df_train.to_csv(Saveplace + dir_dir[i] + '/train/' + folder_name+".csv")#train_csv
+            df_train.to_csv(Saveplace + dir_dir[i] + '/train/' + folder_name+".csv")
             print("csv_train 파일 저장 완료")
             
     #valid 파일 flip 
@@ -175,7 +175,7 @@ for i in range(0,len(dir_dir)):
         df_valid = pd.concat([df_valid,df2],ignore_index = True)
 
         if k == len_valid[i]-1:
-            df_valid.to_csv(Saveplace + dir_dir[i] + '/valid/' + folder_name + ".csv")#train_csv
+            df_valid.to_csv(Saveplace + dir_dir[i] + '/valid/' + folder_name + ".csv")
             print("csv_valid 파일 저장 완료")
     
 
@@ -245,7 +245,7 @@ for i in range(0,len(dir_dir)):
         df_train = pd.concat([df_train,df1],ignore_index = True)
         
         if j == len_train[i]-1:            
-            df_train.to_csv(Saveplace + dir_dir[i] + '/train/' + folder_name + ".csv")#train_csv
+            df_train.to_csv(Saveplace + dir_dir[i] + '/train/' + folder_name + ".csv")
             print("csv_train 파일 저장 완료")
             
     #valid 파일 shift 
@@ -271,7 +271,7 @@ for i in range(0,len(dir_dir)):
         df_valid = pd.concat([df_valid,df2],ignore_index = True)
 
         if k == len_valid[i]-1:
-            df_valid.to_csv(Saveplace + dir_dir[i] + '/valid/' +folder_name + ".csv")#train_csv
+            df_valid.to_csv(Saveplace + dir_dir[i] + '/valid/' +folder_name + ".csv")
             print("csv_valid 파일 저장 완료")
     
 
